@@ -6,10 +6,10 @@ if (!globalToastContainer) {
     document.body.appendChild(globalToastContainer);
 }
 
-function showToast(message) {
+function showToast(message, type="success") {
     const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="ri-checkbox-circle-fill"></i> ${message}`;
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="${type === 'error' ? 'ri-error-warning-fill' : 'ri-checkbox-circle-fill'}"></i> ${message}`;
     globalToastContainer.appendChild(toast);
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
@@ -27,40 +27,62 @@ function setToken(token) {
 function clearToken() {
     localStorage.removeItem('wishlink_token');
     localStorage.removeItem('wishlink_username');
+    localStorage.removeItem('wishlink_role');
 }
 function getAuthHeaders() {
     const token = getToken();
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function checkLoginStatus() {
+    const token = getToken();
+    const role = localStorage.getItem('wishlink_role');
     const loginBtn = document.getElementById('navLoginBtn');
     const registerBtn = document.getElementById('navRegisterBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
     const dashBtn = document.getElementById('navDashBtn');
-    const logoutBtn = document.getElementById('navLogoutBtn');
-    const ctaBtn = document.getElementById('ctaBtn');
+    const adminBtn = document.getElementById('navAdminBtn');
 
-    if (getToken()) {
-        if(loginBtn) loginBtn.classList.add('hidden');
-        if(registerBtn) registerBtn.classList.add('hidden');
-        if(dashBtn) dashBtn.classList.remove('hidden');
-        if(logoutBtn) logoutBtn.classList.remove('hidden');
-        if(ctaBtn) {
-            ctaBtn.innerText = "Panelime Git";
-            ctaBtn.addEventListener('click', () => window.location.href = 'dashboard.html');
+    if (token) {
+        if(loginBtn) loginBtn.style.display = 'none';
+        if(registerBtn) registerBtn.style.display = 'none';
+        if(logoutBtn) logoutBtn.style.display = 'inline-flex';
+        if(dashBtn) dashBtn.style.display = 'inline-flex';
+        if(adminBtn && role === 'admin') adminBtn.style.display = 'inline-flex';
+        
+        const heroPrimaryBtn = document.querySelector('.hero .btn-primary');
+        if(heroPrimaryBtn) {
+            heroPrimaryBtn.textContent = 'Listelerime Git';
+            heroPrimaryBtn.onclick = () => window.location.href = 'dashboard.html';
         }
     } else {
-        if(ctaBtn) {
-            ctaBtn.addEventListener('click', () => registerBtn.click());
+        if(loginBtn) loginBtn.style.display = 'inline-flex';
+        if(registerBtn) registerBtn.style.display = 'inline-flex';
+        if(logoutBtn) logoutBtn.style.display = 'none';
+        if(dashBtn) dashBtn.style.display = 'none';
+        if(adminBtn) adminBtn.style.display = 'none';
+        
+        const heroPrimaryBtn = document.querySelector('.hero .btn-primary');
+        if(heroPrimaryBtn) {
+            heroPrimaryBtn.textContent = 'Hemen Başla';
+            heroPrimaryBtn.onclick = () => {
+                const modal = document.getElementById('authModal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    document.getElementById('registerFormContainer').classList.remove('hidden');
+                    document.getElementById('loginFormContainer').classList.add('hidden');
+                }
+            };
         }
     }
+}
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            clearToken();
-            window.location.href = 'index.html';
-        });
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    checkLoginStatus();
+
+    const loginBtn = document.getElementById('navLoginBtn');
+    const registerBtn = document.getElementById('navRegisterBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     const authModal = document.getElementById('authModal');
     const closeAuthBtn = document.getElementById('closeAuthModal');
@@ -76,9 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (showRegisterLink) showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); loginFormContainer.classList.add('hidden'); registerFormContainer.classList.remove('hidden'); });
     if (showLoginLink) showLoginLink.addEventListener('click', (e) => { e.preventDefault(); registerFormContainer.classList.add('hidden'); loginFormContainer.classList.remove('hidden'); });
 
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearToken();
+            window.location.href = 'index.html';
+        });
+    }
 
+    const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -92,19 +120,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ username: usernameInput, password: passwordInput })
                 });
                 const data = await res.json();
+                
                 if (res.ok) {
                     setToken(data.token);
                     localStorage.setItem('wishlink_username', data.username);
-                    window.location.href = 'dashboard.html';
+                    localStorage.setItem('wishlink_role', data.role || 'user');
+                    authModal.classList.add('hidden');
+                    showToast("Giriş yapıldı!");
+                    checkLoginStatus();
+                    // Optional redirect if we are on login screen
+                    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+                        window.location.href = 'dashboard.html';
+                    }
                 } else {
-                    showToast(data.error || "Giriş başarısız.");
+                    showToast(data.error || "Giriş başarısız.", "error");
                 }
             } catch(e) {
-                showToast("Sunucu hatası.");
+                showToast("Sunucu hatası.", "error");
             }
         });
     }
 
+    const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -119,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 if (res.ok) {
                     showToast("Kayıt başarılı! Giriş yapılıyor...");
-                    // auto login functionality just to speed up proto
                     const loginRes = await fetch('/api/auth/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -129,14 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(loginRes.ok) {
                          setToken(loginData.token);
                          localStorage.setItem('wishlink_username', loginData.username);
+                         localStorage.setItem('wishlink_role', loginData.role || 'user');
                          window.location.href = 'dashboard.html';
                     }
                 } else {
                     const data = await res.json();
-                    showToast(data.error || "Kayıt başarısız.");
+                    showToast(data.error || "Kayıt başarısız.", "error");
                 }
             } catch(e) {
-                showToast("Sunucu hatası.");
+                showToast("Sunucu hatası.", "error");
             }
         });
     }

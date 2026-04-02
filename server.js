@@ -32,6 +32,14 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
+const isAdmin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ error: "Access denied. Admins only." });
+    }
+};
+
 // --- AUTH API ---
 app.post('/api/auth/register', async (req, res) => {
     const { username, password } = req.body;
@@ -62,10 +70,52 @@ app.post('/api/auth/login', async (req, res) => {
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(401).json({ error: "Hatalı şifre." });
 
-        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '7d' });
-        res.json({ token, username: user.username });
+        const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ token, username: user.username, role: user.role });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+// --- ADMIN API ---
+app.get('/api/admin/stats', authenticateToken, isAdmin, async (req, res) => {
+    try {
+        const usersCount = await pool.query('SELECT COUNT(*) FROM users');
+        const listsCount = await pool.query('SELECT COUNT(*) FROM lists');
+        const productsCount = await pool.query('SELECT COUNT(*) FROM products');
+        
+        res.json({
+            users: parseInt(usersCount.rows[0].count),
+            lists: parseInt(listsCount.rows[0].count),
+            products: parseInt(productsCount.rows[0].count)
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get('/api/admin/users', authenticateToken, isAdmin, async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT u.id, u.username, u.role, u.created_at, 
+                   COUNT(l.id) as list_count 
+            FROM users u 
+            LEFT JOIN lists l ON u.id = l.user_id 
+            GROUP BY u.id 
+            ORDER BY u.created_at DESC
+        `);
+        res.json({ users: result.rows });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.delete('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
+    try {
+        await pool.query('DELETE FROM users WHERE id = $1', [req.params.id]);
+        res.json({ message: "User deleted" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
     }
 });
 

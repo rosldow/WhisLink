@@ -26,9 +26,16 @@ pool.connect((err, client, release) => {
                     id SERIAL PRIMARY KEY,
                     username VARCHAR(255) UNIQUE NOT NULL,
                     password VARCHAR(255) NOT NULL,
+                    role VARCHAR(50) DEFAULT 'user',
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             `);
+
+            // In case the table already existed, ensure the column is there
+            try {
+                await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'user'");
+            } catch (ignore) {}
+
 
             await client.query(`
                 CREATE TABLE IF NOT EXISTS lists (
