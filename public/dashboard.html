@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panelim - WishLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page dark-theme">
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+
+    <nav class="navbar glass">
+        <div class="logo"><a href="index.html">Wish<span>Link</span></a></div>
+        <div class="user-profile">
+            <span id="welcomeUser">Yükleniyor...</span>
+            <button id="dashLogoutBtn" class="btn btn-sm btn-outline"><i class="ri-logout-box-r-line"></i> Çıkış</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h2>Listelerim</h2>
+                <p class="text-muted">Tüm dilek listelerini buradan yönetebilirsin.</p>
+            </div>
+            <button class="btn btn-primary glow" id="newListBtn">
+                <i class="ri-add-line"></i> Yeni Liste Oluştur
+            </button>
+        </header>
+
+        <!-- Create List Modal -->
+        <div id="listModal" class="modal hidden">
+            <div class="modal-content glass">
+                <span class="close-modal" id="closeListModal">&times;</span>
+                <h2>Yeni Liste</h2>
+                <form id="createListForm">
+                    <div class="input-group">
+                        <input type="text" id="listName" placeholder="Liste Adı (Örn: Doğum Günüm)" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <input type="text" id="listDesc" placeholder="Kısa Açıklama (İsteğe bağlı)">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Oluştur</button>
+                </form>
+            </div>
+        </div>
+
+        <section class="products-grid" id="listsGrid">
+            <!-- Lists will be injected here -->
+        </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

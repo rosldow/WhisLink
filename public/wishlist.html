@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstek Listesi - WishLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page dark-theme">
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+
+    <nav class="navbar glass">
+        <div class="logo"><a href="index.html">Wish<span>Link</span></a></div>
+        <div class="user-profile">
+            <span id="listOwner">Liste Yükleniyor...</span>
+            <a href="dashboard.html" class="btn btn-sm btn-outline owner-only hidden" id="backToDashBtn">Panelime Dön</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h2 id="listTitleName">Yükleniyor...</h2>
+                <p class="text-muted" id="listDescText"></p>
+            </div>
+            <button class="btn btn-outline glow share-btn" id="shareBtn">
+                <i class="ri-share-line"></i> Listeyi Paylaş
+            </button>
+        </header>
+
+        <section class="add-item-section glass owner-only hidden" id="addItemSection">
+            <h3>Yeni Ürün Ekle</h3>
+            <form id="addLinkForm" class="link-form">
+                <div class="input-group">
+                    <i class="ri-link"></i>
+                    <input type="url" id="productUrl" placeholder="Trendyol, Amazon vs. ürün linkini yapıştır..." required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="addBtn">
+                    <i class="ri-add-line"></i> Ekle
+                </button>
+            </form>
+            <div id="loadingIndicator" class="loading-indicator hidden">
+                <div class="spinner"></div>
+                <span>Ürün bilgileri çekiliyor...</span>
+            </div>
+        </section>
+
+        <!-- Edit Product Modal -->
+        <div id="editModal" class="modal hidden">
+            <div class="modal-content glass">
+                <span class="close-modal" id="closeEditModal">&times;</span>
+                <h2>Ürünü Düzenle</h2>
+                <form id="editForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="input-group">
+                        <input type="text" id="editTitle" placeholder="Ürün Adı" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <input type="text" id="editPrice" placeholder="Fiyat" required>
+                    </div>
+                     <div class="input-group" style="margin-top: 15px;">
+                        <input type="text" id="editImage" placeholder="Görsel Linki" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Kaydet</button>
+                </form>
+            </div>
+        </div>
+
+        <section class="products-grid" id="productsGrid">
+            <!-- Products will be injected here by JS -->
+        </section>
+        <p id="noProductsMsg" class="hidden text-muted" style="text-align: center; width: 100%; margin-top: 40px;">Bu listede henüz ürün yok.</p>
+    </main>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

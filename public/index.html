@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WishLink - Hayalindeki Hediyeyi Paylaş</title>
+    <meta name="description" content="İstediğin ürünlerin linklerini ekle, kendi hediye listeni oluştur ve sevdiklerinle paylaş.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="landing-page dark-theme">
+    <!-- Auth Modals -->
+    <div id="authModal" class="modal hidden">
+        <div class="modal-content glass">
+            <span class="close-modal" id="closeAuthModal">&times;</span>
+            <div id="loginFormContainer">
+                <h2>Giriş Yap</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="ri-user-line"></i>
+                        <input type="text" id="loginUsername" placeholder="Kullanıcı Adı" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <i class="ri-lock-line"></i>
+                        <input type="password" id="loginPassword" placeholder="Şifre" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Giriş</button>
+                    <p style="margin-top: 15px; text-align: center;">Hesabın yok mu? <a href="#" id="showRegister" class="gradient-text">Kayıt Ol</a></p>
+                </form>
+            </div>
+            <div id="registerFormContainer" class="hidden">
+                <h2>Kayıt Ol</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <i class="ri-user-line"></i>
+                        <input type="text" id="regUsername" placeholder="Kullanıcı Adı" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <i class="ri-lock-line"></i>
+                        <input type="password" id="regPassword" placeholder="Şifre belirle" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Kayıt Ol</button>
+                    <p style="margin-top: 15px; text-align: center;">Zaten hesabın var mı? <a href="#" id="showLogin" class="gradient-text">Giriş Yap</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <nav class="navbar glass">
+        <div class="logo">Wish<span>Link</span></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#how-it-works" class="nav-link">Nasıl Çalışır?</a>
+            <button class="btn btn-outline btn-sm" id="navLoginBtn">Giriş Yap</button>
+            <button class="btn btn-primary btn-sm" id="navRegisterBtn">Kayıt Ol</button>
+            <a href="dashboard.html" class="btn btn-primary btn-sm hidden" id="navDashBtn">Panelime Git</a>
+            <button class="btn btn-outline btn-sm hidden" id="navLogoutBtn">Çıkış</button>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">İstediğin Hediyeyi <br><span class="gradient-text">Doğrudan Söyle.</span></h1>
+            <p class="hero-subtitle">Sevdiğin mağazalardan beğendiğin ürünlerin linkini ekle, kendi "İstek Listeni" oluştur ve arkadaşlarınla paylaş. Yanlış hediye alma derdine son!</p>
+            <div class="hero-actions">
+                <button id="ctaBtn" class="btn btn-primary btn-large glow">Hemen Başla</button>
+                <a href="#how-it-works" class="btn btn-secondary btn-large">Daha Fazla Bilgi</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="glass-card mockup-card floating">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Sneaker" class="mockup-img">
+                <div class="mockup-info">
+                    <h3>Nike Air Max 270</h3>
+                    <p class="price">₺3.499,00</p>
+                    <button class="btn btn-sm btn-outline">Satın Al</button>
+                </div>
+            </div>
+            <div class="glass-card mockup-card delayed-floating">
+                <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Macbook" class="mockup-img">
+                <div class="mockup-info">
+                    <h3>Apple MacBook Pro M3</h3>
+                    <p class="price">₺65.999,00</p>
+                    <button class="btn btn-sm btn-outline">Satın Al</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section id="how-it-works" class="how-it-works-section">
+        <h2>Nasıl Çalışır?</h2>
+        <div class="steps-grid">
+            <div class="step-card glass">
+                <div class="step-icon"><i class="ri-user-add-line"></i></div>
+                <h3>1. Hesap Oluştur</h3>
+                <p>Ücretsiz ve hızlıca kayıt ol. Profilini oluşturup listelerini hazırlamaya başla.</p>
+            </div>
+            <div class="step-card glass">
+                <div class="step-icon"><i class="ri-links-line"></i></div>
+                <h3>2. Linkleri Yapıştır</h3>
+                <p>İstediğin ürünü gördüğünde linkini kopyala ve listene ekle. Detayları biz çekeriz!</p>
+            </div>
+            <div class="step-card glass">
+                <div class="step-icon"><i class="ri-share-forward-line"></i></div>
+                <h3>3. Paylaş ve Sevin</h3>
+                <p>Listenin bağlantısını arkadaşlarınla paylaş. Yanlış hediye riskini ortadan kaldır.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Generic Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/auth.js"></script>
+</body>
+</html>
