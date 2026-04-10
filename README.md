@@ -2,71 +2,67 @@
 <div align="center">
   <h1 align="center">🎁 WishLink</h1>
   <p align="center">
-    <strong>İstediğin Hediyeyi Doğrudan Söyle.</strong>
+    <strong>İstediğim Hediyeyi Doğrudan Söyle: Sürpriz Bozulmadan!</strong>
     <br/>
     <br/>
-    Kullanıcıların beğendikleri ürünlerin bağlantılarını ekleyerek kişisel "İstek Listeleri" (Wishlist) oluşturmalarını ve bu listeleri arkadaşlarıyla paylaşmalarını sağlayan modern bir Full-Stack Web Uygulaması.
+    Kullanıcıların beğendikleri ürünlerin bağlantılarını ekleyerek kişisel "İstek Listeleri" oluşturmalarını ve bu listeleri arkadaşlarıyla güvenle paylaşmalarını sağlayan modern bir Full-Stack Web Uygulaması.
   </p>
 </div>
 
 <br/>
 
-## 🌟 Özellikler
+## 🌟 Neden WishLink? (Pro Özellikler)
 
-- **🤖 Akıllı Link Okuyucu (Scraper):** Trendyol, Amazon, Hepsiburada gibi sitelerden kopyalanan ürün linklerinden otomatik olarak ürün adı, görseli ve fiyatını çeker.
-- **🔐 Güvenli Kimlik Doğrulama:** JWT (JSON Web Token) ve bcryptJS şifrelemeli kullanıcı kayıt ve giriş sistemi.
-- **📱 Modern & Responsive Arayüz:** Vanilla CSS ile tasarlanmış Glassmorphism (cam efekti) tabanlı, karanlık mod temalı ve mobil cihazlarla %100 uyumlu arayüz.
-- **👑 Yönetici (Admin) Paneli:** Özel yetkilendirilmiş yöneticiler için sistemdeki tüm üyeleri, listeleri ve ürünleri istatiksel olarak görüntüleme ve üye uzaklaştırma özellikleri.
-- **📝 Çoklu Liste Yönetimi:** Kullanıcı başına tek liste yerine, birden fazla kategorize edilmiş (Örn: "Doğum Günü", "Çeyiz", "Kitaplar") liste oluşturabilme.
+Piyasadaki standart not tutma veya link saklama uygulamalarının ötesinde, WishLink tamamen "Hediyeleşme" psikolojisi üzerine kurulmuş benzersiz bir mimariye sahiptir:
+
+- **🕵️‍♂️ Kusursuz "Sürpriz" Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir ve diğer arkadaşlarınızla pişti olmaktan kurtulur. İşin büyüsü şudur: Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, sürpriz son ana kadar korunur.
+- **🛡️ Kırılamaz Güvenlik & Gizlilik:** Listeler ardışık ID'lerle (Örn: `liste/5`) değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki sadece sizin yolladığınız kişiler görebilir.
+- **🤖 Akıllı Link Okuyucu:** Trendyol, Amazon, Hepsiburada gibi sitelerden kopyalanan linkleri ayrıştırır ve otomatik olarak ürün adı, görseli ve fiyatını çeker. Sizin bir şey yazmanıza gerek kalmaz.
+- **🔀 Sürükle ve Bırak (Drag & Drop):** En çok istediğiniz hediyeleri parmağınızla farenizle tutarak listenin en üstüne taşıyabilir, sıralamayı dilediğiniz gibi özelleştirebilirsiniz.
+- **🎨 Glassmorphism & Mobil İlk Tasarım:** En modern cam efekti UI anlayışıyla, telefonlarda standart bir uygulama (Native-App) kullanıyormuş hissi veren alttan açılan (Bottom-Sheet) menülere sahiptir.
 
 ## 🛠️ Teknolojiler & Mimari
 
-- **Backend:** Node.js, Express.js
-- **Veritabanı:** PostgreSQL (`pg` pooler kullanılarak)
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript
-- **Web Scraping:** Axios, Cheerio
-- **Güvenlik & Yapılandırma:** JWT, bcryptjs, dotenv, cors
+- **Backend Mimari:** Node.js, Express.js
+- **Veritabanı:** PostgreSQL (Neon.tech - `pg` pooler kullanılarak)
+- **Frontend & UI:** HTML5, Vanilla JavaScript, CSS3 (Akışkan Tipografi, CSS Grid/Flexbox)
+- **Web Scraping Aracı:** Axios, Cheerio
+- **Güvenlik (Auth & Crypto):** JWT (JSON Web Token), bcryptjs, Node Crypto, CORS, dotenv
 
-## 🚀 Kurulum & Çalıştırma (Yerel Geliştirme)
+## 🚀 Kurulum (Yerel Geliştirme Ortamı)
 
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
+Projeyi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
 
-### 1. Gereksinimler
-- Bilgisayarınızda [Node.js](https://nodejs.org/) kurulu olmalıdır.
-- (Opsiyonel) Canlı bir veritabanı url'i veya yerel PostgreSQL veritabanı.
-
-### 2. Projeyi Klonlayın
+### 1. Projeyi Klonlayın
 ```bash
 git clone https://github.com/KULLANICI_ADINIZ/wishlink.git
 cd wishlink
 ```
 
-### 3. Gerekli Paketleri Yükleyin
+### 2. Gereksinimleri Yükleyin
 ```bash
 npm install
 ```
 
-### 4. Çevre Değişkenlerini Ayarlayın
-Ana dizinde gizli bir `.env` dosyası oluşturun ve içerisine kendi ayarlarınızı ekleyin:
+### 3. Çevre Değişkenleri (Environment Variables)
+Ana dizinde `.env` isimli gizli bir dosya oluşturun ve içerisine aşağıdaki ayarlarınızı ekleyin. (*Projeyi güvende tutmak için `.env` dosyanızı GitHub'a yüklemeyin, zaten `.gitignore` sayesinde yüklenmeyecektir*):
 ```env
 DATABASE_URL=postgresql://kullanici:sifre@host:5432/veritabani_adi
 JWT_SECRET=en_az_32_karakterlik_cok_gizli_anahtar_kelimeniz_123!
 PORT=3000
 ```
-> **Not:** Şifrelerinizin çalınmaması için `.env` dosyasını asla GitHub'a yüklemeyin. Projede bunu engellemek için bir `.gitignore` dosyası eklidir.
 
-### 5. Sunucuyu Başlatın
+### 4. Sunucuyu Başlatın
 ```bash
 npm start
 ```
-Artık tarayıcınızdan `http://localhost:3000` adresine giderek siteyi görüntüleyebilirsiniz! Veritabanı tabloları sunucu ilk açıldığında otomatik olarak kurulacaktır.
+Artık tarayıcınızdan `http://localhost:3000` adresine giderek siteyi görüntüleyebilirsiniz! İçerisindeki gelişmiş Veritabanı Geçiş (Migration) mekanizması sayesinde tablolar ilk açılışta kendi kendine kusursuzca kurulacaktır.
 
-## 👑 Kendinizi "Admin" Yapmak İçin
-Veritabanı paneline (Örn: Neon.tech SQL Editor veya pgAdmin) bağlanın ve kendi kullanıcınız için şu komutu çalıştırın:
+## 👑 Yönetici (Admin) Komutları
+Admin paneline (Uygulamadaki tüm kullanıcı ve listeleri yönetmek için) erişim sağlamak istiyorsanız, bağlandığınız PostgreSQL veritabanı panosundan (Neon.tech SQL Editor vs.) kendi hesabınız için yetki yükseltmesi yapmalısınız:
 ```sql
-UPDATE users SET role = 'admin' WHERE username = 'kullanici_adiniz';
+UPDATE users SET role = 'admin' WHERE username = 'sizin_kullanici_adiniz';
 ```
-Hesabınıza tekrar giriş yaptığınızda yönetim panelinize erişebileceksiniz.
 
 ---
-> 💡 *Bu proje, e-ticaret sitelerinden hediye arama sürecini sosyal ve kolay bir deneyime dönüştürmek amacıyla kodlanmıştır.*
+> 💡 *WishLink, hediye seçimi sırasındaki karmaşayı engelleyip, e-ticaret siteleri ile arkadaşlarınız arasında sosyal ve gizemli bir köprü kurmak amacıyla geliştirilmiştir.*
