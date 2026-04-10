@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProfile();
     loadLists();
 
+    // Modal Toggles
+    document.getElementById('newListBtn')?.addEventListener('click', () => {
+        document.getElementById('listModal').classList.remove('hidden');
+    });
+    document.getElementById('closeListModal')?.addEventListener('click', () => {
+        document.getElementById('listModal').classList.add('hidden');
+    });
+
     document.getElementById('createListForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('listName').value;
@@ -34,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 showToast("Liste oluşturuldu!");
                 document.getElementById('createListForm').reset();
+                document.getElementById('listModal').classList.add('hidden');
                 loadLists();
             } else {
                 showToast("Hata oluştu", "error");
@@ -112,7 +121,7 @@ async function loadLists() {
         });
         if (res.ok) {
             const data = await res.json();
-            const container = document.getElementById('listsContainer');
+            const container = document.getElementById('listsGrid');
             
             if (data.lists.length === 0) {
                 container.innerHTML = '<p class="text-muted" style="text-align: center; width: 100%;">Henüz hiç liste oluşturmadınız.</p>';
