@@ -25,7 +25,8 @@
 
     <nav class="navbar glass">
         <div class="logo"><a href="index.html">Wish<span>Link</span></a></div>
-        <div class="user-profile">
+        <button class="menu-toggle" id="menuToggleBtn"><i class="ri-menu-line"></i></button>
+        <div class="user-profile nav-links" id="navLinks">
             <span class="badge-admin" style="margin-right:10px;">YÖNETİCİ</span>
             <span id="welcomeUser">Admin</span>
             <a href="dashboard.html" class="btn btn-sm btn-outline" style="margin-left: 10px;">Geri Dön</a>
@@ -57,21 +58,23 @@
 
         <section>
             <h3 style="font-size: 1.5rem; margin-bottom: 20px;">Üye Yönetimi</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Kullanıcı Adı</th>
-                        <th>Rol</th>
-                        <th>Liste Sayısı</th>
-                        <th>Kayıt Tarihi</th>
-                        <th>İşlem</th>
-                    </tr>
-                </thead>
-                <tbody id="usersTableBody">
-                    <tr><td colspan="6" style="text-align: center;">Yükleniyor...</td></tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Rol</th>
+                            <th>Liste Sayısı</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr><td colspan="6" style="text-align: center;">Yükleniyor...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 

@@ -80,6 +80,28 @@ function checkLoginStatus() {
 document.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
 
+    // Mobile Menu Toggle Logic
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navLinks = document.getElementById('navLinks');
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                menuBtn.innerHTML = '<i class="ri-close-line"></i>';
+            } else {
+                menuBtn.innerHTML = '<i class="ri-menu-line"></i>';
+            }
+        });
+
+        // Close menu if a link is clicked
+        navLinks.addEventListener('click', (e) => {
+            if(e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
+                navLinks.classList.remove('active');
+                menuBtn.innerHTML = '<i class="ri-menu-line"></i>';
+            }
+        });
+    }
+
     const loginBtn = document.getElementById('navLoginBtn');
     const registerBtn = document.getElementById('navRegisterBtn');
     const logoutBtn = document.getElementById('logoutBtn');
