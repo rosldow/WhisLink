@@ -15,7 +15,7 @@
 
 Piyasadaki standart not tutma veya link saklama uygulamalarının ötesinde, WishLink tamamen "Hediyeleşme" psikolojisi üzerine kurulmuş benzersiz bir mimariye sahiptir:
 
-- **🕵️‍♂️ Sürpriz" Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir ve diğer arkadaşlarınızla pişti olmaktan kurtulur. İşin büyüsü şudur: Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, sürpriz son ana kadar korunur.
+- **🕵️‍♂️ Sürpriz Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir ve diğer arkadaşlarınızla pişti olmaktan kurtulur. İşin büyüsü şudur: Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, sürpriz son ana kadar korunur.
 - **🛡️ Güvenlik & Gizlilik:** Listeler ardışık ID'lerle (Örn: `liste/5`) değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki sadece sizin yolladığınız kişiler görebilir.
 - **🤖 Akıllı Link Okuyucu:** Trendyol, Amazon, Hepsiburada gibi sitelerden kopyalanan linkleri ayrıştırır ve otomatik olarak ürün adı, görseli ve fiyatını çeker. Sizin bir şey yazmanıza gerek kalmaz.
 - **🔀 Sürükle ve Bırak (Drag & Drop):** En çok istediğiniz hediyeleri parmağınızla farenizle tutarak listenin en üstüne taşıyabilir, sıralamayı dilediğiniz gibi özelleştirebilirsiniz.
