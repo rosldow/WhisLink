@@ -2,7 +2,7 @@
 <div align="center">
   <h1 align="center">🎁 WishLink</h1>
   <p align="center">
-    <strong>Yapay Zeka Destekli, Sürprizi Bozmayan İstek Listesi</strong>
+    <strong>Yapay Zeka Destekli İstek Listesi</strong>
     <br/>
     <br/>
     Kullanıcıların beğendikleri ürünlerin bağlantılarını ekleyerek kişisel "İstek Listeleri" oluşturmalarını, hediye alacakları arkadaşlarına AI asistanla fikir üretmelerini ve sürprizi asla bozmadan güvenle paylaşmalarını sağlayan modern Full-Stack Girişim Projesi.
@@ -11,13 +11,13 @@
 
 <br/>
 
-## 🌟 Öne Çıkan "Startup" Özellikleri
+## 🌟 Öne Çıkan Özellikleri
 
-Mevcut not tutma uygulamalarının fersah fersah ötesinde; WishLink tamamen "Hediyeleşme Psikolojisi" ve "Yapay Zeka" üzerine inşa edilmiş teknolojik bir ekosistemdir:
+Mevcut not tutma uygulamalarının ötesinde; WishLink tamamen "Hediyeleşme Psikolojisi" ve "Yapay Zeka" üzerine inşa edilmiş teknolojik bir ekosistemdir:
 
 - **🤖 WishBot: Yapay Zeka Hediye Danışmanı (Gemini 1.5):** Sitenin her an sağ alt köşesinde sizi bekleyen akıllı bir danışman. *"Anneme teknolojik bir hediye arıyorum, bütçem 2000 TL"* yazdığınızda, geçmiş mesajlarınızı da hafızada tutarak size nokta atışı yaratıcı hediye fikirleri sunar (Google Gemini API altyapısı).
-- **🕵️‍♂️ Kusursuz "Sürpriz" Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir. Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları arka planda (Backend) anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, hediye anına kadar sürprizinizi hiçbir sızıntı bozamaz.
-- **🛡️ Kırılamaz Güvenlik & Gizlilik:** Listeleriniz `?liste=5` gibi tahmin edilebilir düz yapılarla değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki bizzat atmadığınız kimse listenize sızamaz.
+- **🕵️‍♂️ Sürpriz Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir. Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları arka planda (Backend) anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, hediye anına kadar sürprizinizi hiçbir sızıntı bozamaz.
+- **🛡️ Güvenlik & Gizlilik:** Listeleriniz `?liste=5` gibi tahmin edilebilir düz yapılarla değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki bizzat atmadığınız kimse listenize sızamaz.
 - **⚡ Akıllı Link Okuyucu (Scraper):** Trendyol, Amazon, Hepsiburada gibi yerlerden kopyalanan linkleri otonom olarak ayrıştırır; sayfaya girip ürün adını, görselini ve güncel fiyatını çeker. Siz sadece link yapıştırırsınız.
 - **🔀 Dinamik Sıralama (Drag & Drop):** En çok istediğiniz hediyeleri parmağınızla/farenizle ekrandan tutarak listenin en üstüne taşıyabilir, sıralamayı ve akışı anında özelleştirebilirsiniz.
 - **🎨 Glassmorphism & Mobil İlk Tasarım:** En modern yarı-saydam cam efekti (Glassmorphism) anlayışıyla kaplanmış, telefonda standart bir uygulama (Native-App) akıcılığında çalışan Bottom-Sheet menülere sahiptir.
