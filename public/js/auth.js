@@ -230,11 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     wishbotFab.addEventListener('click', () => {
         wishbotWindow.classList.add('active');
+        wishbotFab.classList.add('hidden-fab');
         wishbotInput.focus();
     });
 
     closeWishbot.addEventListener('click', () => {
         wishbotWindow.classList.remove('active');
+        wishbotFab.classList.remove('hidden-fab');
     });
 
     wishbotForm.addEventListener('submit', async (e) => {
@@ -265,11 +267,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 appendMessage('bot', data.text);
                 chatHistory.push({ role: 'model', parts: [{ text: data.text }] });
             } else {
-                appendMessage('bot', 'Üzgünüm, şu an bağlantı kuramıyorum. Lütfen sunucu loglarını ve API anahtarınızı kontrol edin.');
+                let errText = 'Üzgünüm, şu an bağlantı kuramıyorum. Lütfen sunucu loglarını ve API anahtarınızı kontrol edin.';
+                try {
+                    const data = await res.json();
+                    if(data.error) errText = data.error;
+                } catch(e) {}
+                appendMessage('bot', errText);
             }
         } catch (err) {
             document.getElementById(typingId)?.remove();
-            appendMessage('bot', 'Bir ağ hatası oluştu, lütfen tekrar deneyin.');
+            appendMessage('bot', 'Bir ağ hatası veya model dönüş hatası oluştu. Lütfen konsolu kontrol edin.');
+            console.error(err);
         }
     });
 

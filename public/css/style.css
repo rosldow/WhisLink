@@ -677,15 +677,21 @@ ul {
     cursor: pointer;
     box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
     z-index: 1000;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, visibility 0.3s;
 }
 .wishbot-fab:hover {
     transform: scale(1.1);
 }
+.wishbot-fab.hidden-fab {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    pointer-events: none;
+}
 
 .wishbot-window {
     position: fixed;
-    bottom: 90px;
+    bottom: 20px;
     right: 20px;
     width: 350px;
     height: 500px;
@@ -699,16 +705,17 @@ ul {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    z-index: 1000;
+    z-index: 1001; /* Above fab */
     opacity: 0;
     pointer-events: none;
-    transform: translateY(20px);
+    transform: scale(0.9) translateY(20px);
+    transform-origin: bottom right;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .wishbot-window.active {
     opacity: 1;
     pointer-events: all;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
 }
 
 .wishbot-header {
