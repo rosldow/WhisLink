@@ -16,7 +16,10 @@ let genAI = null;
 let model = null;
 if (geminiApiKey) {
     genAI = new GoogleGenerativeAI(geminiApiKey);
-    model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: "Senin adın WishBot. WishLink hediye uygulamasının akıllı hediye danışmanısın. Uzun metinler yerine her zaman kısa, net ve şık hediye önerilerinde bulunmalısın. Gerekirse emoji kullanabilirsin."
+    });
 }
 
 const app = express();
@@ -332,15 +335,8 @@ app.post('/api/chat', async (req, res) => {
     if (!model) return res.status(503).json({ error: "Yapay zeka aktif değil. Lütfen GEMINI_API_KEY ayarlandığından emin olun." });
 
     try {
-        const systemPrompt = "Senin adın WishBot. WishLink hediye uygulamasının akıllı hediye danışmanısın. Uzun metinler yerine her zaman kısa, net ve şık hediye önerilerinde bulunmalısın. Gerekirse emoji kullanabilirsin.";
-        const fullHistory = [
-            { role: "user", parts: [{ text: systemPrompt }] },
-            { role: "model", parts: [{ text: "Tamamdır, anladım. Ben WishBot'um. Yönergelere uygun bir şekilde kullanıcılara hediye tavsiyeleri vereceğim." }] },
-            ...(history || [])
-        ];
-
         const chat = model.startChat({
-            history: fullHistory
+            history: history || []
         });
         
         const result = await chat.sendMessage(message);
