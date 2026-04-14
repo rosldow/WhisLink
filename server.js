@@ -13,13 +13,35 @@ const pool = require('./database');
 // Initialize Gemini if Key is present
 const geminiApiKey = process.env.GEMINI_API_KEY;
 let genAI = null;
-let model = null;
 if (geminiApiKey) {
     genAI = new GoogleGenerativeAI(geminiApiKey);
-    model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
-        systemInstruction: "Senin adın WishBot. WishLink hediye uygulamasının akıllı hediye danışmanısın. Uzun metinler yerine her zaman kısa, net ve şık hediye önerilerinde bulunmalısın. Gerekirse emoji kullanabilirsin."
-    });
+}
+
+// Auto-discover the best model dynamically
+let dynamicModelName = null;
+async function getBestModel() {
+    if (dynamicModelName) return dynamicModelName;
+    try {
+        const res = await axios.get(`https://generativelanguage.googleapis.com/v1beta/models?key=${geminiApiKey}`);
+        const models = res.data.models.map(m => m.name.replace('models/', ''));
+        // Prio order for supported models
+        const ops = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-1.5-flash-latest', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.0-pro'];
+        for (let o of ops) {
+            if (models.includes(o)) {
+                dynamicModelName = o;
+                return o;
+            }
+        }
+        // Native fallback to first text generation model
+        const fallback = res.data.models.find(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
+        if (fallback) {
+            dynamicModelName = fallback.name.replace('models/', '');
+            return dynamicModelName;
+        }
+    } catch(e) {
+        console.log("Model fetch hatasi, varsayilana donuluyor.");
+    }
+    return "gemini-1.5-flash";
 }
 
 const app = express();
@@ -332,11 +354,21 @@ app.post('/api/chat', async (req, res) => {
     const { history, message } = req.body;
     
     if (!message) return res.status(400).json({ error: "Mesaj boş olamaz." });
-    if (!model) return res.status(503).json({ error: "Yapay zeka aktif değil. Lütfen GEMINI_API_KEY ayarlandığından emin olun." });
+    if (!genAI) return res.status(503).json({ error: "Yapay zeka aktif değil. Lütfen GEMINI_API_KEY ayarlandığından emin olun." });
 
     try {
+        const mName = await getBestModel();
+        const model = genAI.getGenerativeModel({ model: mName });
+
+        const systemPrompt = "Senin adın WishBot. WishLink hediye uygulamasının akıllı hediye danışmanısın. Uzun metinler yerine her zaman kısa, net ve şık hediye önerilerinde bulunmalısın. Gerekirse emoji kullanabilirsin.";
+        const fullHistory = [
+            { role: "user", parts: [{ text: systemPrompt }] },
+            { role: "model", parts: [{ text: "Tamamdır, anladım. Ben WishBot'um. Mümkün olduğunca kısa ve şık öneriler vereceğim." }] },
+            ...(history || [])
+        ];
+
         const chat = model.startChat({
-            history: history || []
+            history: fullHistory
         });
         
         const result = await chat.sendMessage(message);
@@ -345,7 +377,7 @@ app.post('/api/chat', async (req, res) => {
         res.json({ text: responseText });
     } catch (e) {
         console.error("Gemini AI Hatası:", e);
-        res.status(500).json({ error: "Sohbet sırasında bir hata oluştu." });
+        res.status(500).json({ error: e.message || "Sohbet sırasında bir hata oluştu." });
     }
 });
 
