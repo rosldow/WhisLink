@@ -6,8 +6,21 @@ const cheerio = require('cheerio');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const crypto = require('crypto');
 const pool = require('./database');
+
+// Initialize Gemini if Key is present
+const geminiApiKey = process.env.GEMINI_API_KEY;
+let genAI = null;
+let model = null;
+if (geminiApiKey) {
+    genAI = new GoogleGenerativeAI(geminiApiKey);
+    model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: "Senin adın WishBot. WishLink hediye ve istek listesi uygulamasının yapay zeka destekli akıllı hediye danışmanısın. Amacın kullanıcılara hediye fikirleri vermek, hediye alacakları kişilere göre öneriler sunmak ve nazik bir tonda yardım etmektir. Uzun metinler yerine her zaman kısa, net ve şık öneriler kullanmalısın. Gerekirse liste veya emoji kullanabilirsin."
+    });
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -312,6 +325,28 @@ app.delete('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) 
         await pool.query('DELETE FROM users WHERE id = $1', [req.params.id]);
         res.json({ message: "User deleted" });
     } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// --- WISHLINK AI CHATBOT ---
+app.post('/api/chat', async (req, res) => {
+    const { history, message } = req.body;
+    
+    if (!message) return res.status(400).json({ error: "Mesaj boş olamaz." });
+    if (!model) return res.status(503).json({ error: "Yapay zeka aktif değil. Lütfen GEMINI_API_KEY ayarlandığından emin olun." });
+
+    try {
+        const chat = model.startChat({
+            history: history || []
+        });
+        
+        const result = await chat.sendMessage(message);
+        const responseText = result.response.text();
+        
+        res.json({ text: responseText });
+    } catch (e) {
+        console.error("Gemini AI Hatası:", e);
+        res.status(500).json({ error: "Sohbet sırasında bir hata oluştu." });
+    }
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

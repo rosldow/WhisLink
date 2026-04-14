@@ -199,4 +199,85 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- WISHLINK AI CHATBOT (WISHBOT) INIT ---
+    const chatHTML = `
+    <div class="wishbot-fab" id="wishbotFab"><i class="ri-robot-2-line"></i></div>
+    <div class="wishbot-window" id="wishbotWindow">
+        <div class="wishbot-header">
+            <h3><i class="ri-bard-fill" style="color:var(--primary)"></i> WishBot Danışmanı</h3>
+            <i class="ri-close-line" id="closeWishbot" style="cursor:pointer; font-size:1.5rem;"></i>
+        </div>
+        <div class="wishbot-messages" id="wishbotMessages">
+            <div class="chat-msg bot">Merhaba! Ben WishBot 👋 Aklında birisine hediye almak mı var yoksa listeni mi oluşturacaksın? Nasıl yardımcı olabilirim?</div>
+        </div>
+        <form class="wishbot-input-area" id="wishbotForm">
+            <input type="text" id="wishbotInput" placeholder="Mesajınızı yazın..." autocomplete="off">
+            <button type="submit" id="wishbotSendBtn"><i class="ri-send-plane-fill"></i></button>
+        </form>
+    </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+    const wishbotFab = document.getElementById('wishbotFab');
+    const wishbotWindow = document.getElementById('wishbotWindow');
+    const closeWishbot = document.getElementById('closeWishbot');
+    const wishbotForm = document.getElementById('wishbotForm');
+    const wishbotInput = document.getElementById('wishbotInput');
+    const wishbotMessages = document.getElementById('wishbotMessages');
+
+    let chatHistory = [];
+
+    wishbotFab.addEventListener('click', () => {
+        wishbotWindow.classList.add('active');
+        wishbotInput.focus();
+    });
+
+    closeWishbot.addEventListener('click', () => {
+        wishbotWindow.classList.remove('active');
+    });
+
+    wishbotForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = wishbotInput.value.trim();
+        if (!text) return;
+
+        appendMessage('user', text);
+        wishbotInput.value = '';
+        
+        chatHistory.push({ role: 'user', parts: [{ text }] });
+
+        const typingId = 'typing-' + Date.now();
+        wishbotMessages.insertAdjacentHTML('beforeend', `<div class="chat-msg bot typing-indicator" id="${typingId}"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`);
+        wishbotMessages.scrollTop = wishbotMessages.scrollHeight;
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, history: chatHistory.slice(0, -1) }) 
+            });
+            
+            document.getElementById(typingId)?.remove();
+
+            if (res.ok) {
+                const data = await res.json();
+                appendMessage('bot', data.text);
+                chatHistory.push({ role: 'model', parts: [{ text: data.text }] });
+            } else {
+                appendMessage('bot', 'Üzgünüm, şu an bağlantı kuramıyorum. Lütfen sunucu loglarını ve API anahtarınızı kontrol edin.');
+            }
+        } catch (err) {
+            document.getElementById(typingId)?.remove();
+            appendMessage('bot', 'Bir ağ hatası oluştu, lütfen tekrar deneyin.');
+        }
+    });
+
+    function appendMessage(role, text) {
+        // Convert simple markdown to HTML (bold and lines)
+        const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+        const msgHtml = `<div class="chat-msg ${role}">${formattedText}</div>`;
+        wishbotMessages.insertAdjacentHTML('beforeend', msgHtml);
+        wishbotMessages.scrollTop = wishbotMessages.scrollHeight;
+    }
 });

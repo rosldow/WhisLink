@@ -2,67 +2,71 @@
 <div align="center">
   <h1 align="center">🎁 WishLink</h1>
   <p align="center">
-    <strong>İstediğim Hediyeyi Doğrudan Söyle: Sürpriz Bozulmadan!</strong>
+    <strong>Yapay Zeka Destekli, Sürprizi Bozmayan İstek Listesi</strong>
     <br/>
     <br/>
-    Kullanıcıların beğendikleri ürünlerin bağlantılarını ekleyerek kişisel "İstek Listeleri" oluşturmalarını ve bu listeleri arkadaşlarıyla güvenle paylaşmalarını sağlayan modern bir Full-Stack Web Uygulaması.
+    Kullanıcıların beğendikleri ürünlerin bağlantılarını ekleyerek kişisel "İstek Listeleri" oluşturmalarını, hediye alacakları arkadaşlarına AI asistanla fikir üretmelerini ve sürprizi asla bozmadan güvenle paylaşmalarını sağlayan modern Full-Stack Girişim Projesi.
   </p>
 </div>
 
 <br/>
 
-## 🌟 Neden WishLink?
+## 🌟 Öne Çıkan "Startup" Özellikleri
 
-Piyasadaki standart not tutma veya link saklama uygulamalarının ötesinde, WishLink tamamen "Hediyeleşme" psikolojisi üzerine kurulmuş benzersiz bir mimariye sahiptir:
+Mevcut not tutma uygulamalarının fersah fersah ötesinde; WishLink tamamen "Hediyeleşme Psikolojisi" ve "Yapay Zeka" üzerine inşa edilmiş teknolojik bir ekosistemdir:
 
-- **🕵️‍♂️ Sürpriz Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir ve diğer arkadaşlarınızla pişti olmaktan kurtulur. İşin büyüsü şudur: Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, sürpriz son ana kadar korunur.
-- **🛡️ Güvenlik & Gizlilik:** Listeler ardışık ID'lerle (Örn: `liste/5`) değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki sadece sizin yolladığınız kişiler görebilir.
-- **🤖 Akıllı Link Okuyucu:** Trendyol, Amazon, Hepsiburada gibi sitelerden kopyalanan linkleri ayrıştırır ve otomatik olarak ürün adı, görseli ve fiyatını çeker. Sizin bir şey yazmanıza gerek kalmaz.
-- **🔀 Sürükle ve Bırak (Drag & Drop):** En çok istediğiniz hediyeleri parmağınızla farenizle tutarak listenin en üstüne taşıyabilir, sıralamayı dilediğiniz gibi özelleştirebilirsiniz.
-- **🎨 Tasarım:** En modern cam efekti UI anlayışıyla, telefonlarda standart bir uygulama (Native-App) kullanıyormuş hissi veren alttan açılan (Bottom-Sheet) menülere sahiptir.
+- **🤖 WishBot: Yapay Zeka Hediye Danışmanı (Gemini 1.5):** Sitenin her an sağ alt köşesinde sizi bekleyen akıllı bir danışman. *"Anneme teknolojik bir hediye arıyorum, bütçem 2000 TL"* yazdığınızda, geçmiş mesajlarınızı da hafızada tutarak size nokta atışı yaratıcı hediye fikirleri sunar (Google Gemini API altyapısı).
+- **🕵️‍♂️ Kusursuz "Sürpriz" Koruması:** Arkadaşlarınız listenizi ziyaret edip bir ürün için "🎁 Bunu Ben Alıyorum" diyerek rezerve edebilir. Sistem sizin (liste sahibinin) girdiğini algıladığında bu rezervasyonları arka planda (Backend) anında sansürler! Kendi listenizde bile kimin neyi aldığını göremezsiniz, hediye anına kadar sürprizinizi hiçbir sızıntı bozamaz.
+- **🛡️ Kırılamaz Güvenlik & Gizlilik:** Listeleriniz `?liste=5` gibi tahmin edilebilir düz yapılarla değil, bankacılık düzeyinde algoritmalarla üretilmiş eşsiz UUID Token'larla korunur. Linki bizzat atmadığınız kimse listenize sızamaz.
+- **⚡ Akıllı Link Okuyucu (Scraper):** Trendyol, Amazon, Hepsiburada gibi yerlerden kopyalanan linkleri otonom olarak ayrıştırır; sayfaya girip ürün adını, görselini ve güncel fiyatını çeker. Siz sadece link yapıştırırsınız.
+- **🔀 Dinamik Sıralama (Drag & Drop):** En çok istediğiniz hediyeleri parmağınızla/farenizle ekrandan tutarak listenin en üstüne taşıyabilir, sıralamayı ve akışı anında özelleştirebilirsiniz.
+- **🎨 Glassmorphism & Mobil İlk Tasarım:** En modern yarı-saydam cam efekti (Glassmorphism) anlayışıyla kaplanmış, telefonda standart bir uygulama (Native-App) akıcılığında çalışan Bottom-Sheet menülere sahiptir.
 
 ## 🛠️ Teknolojiler & Mimari
 
-- **Backend Mimari:** Node.js, Express.js
-- **Veritabanı:** PostgreSQL (Neon.tech - `pg` pooler kullanılarak)
-- **Frontend & UI:** HTML5, Vanilla JavaScript, CSS3 (Akışkan Tipografi, CSS Grid/Flexbox)
-- **Web Scraping Aracı:** Axios, Cheerio
-- **Güvenlik (Auth & Crypto):** JWT (JSON Web Token), bcryptjs, Node Crypto, CORS, dotenv
+- **Genel Mimari:** Node.js, Express.js
+- **Veritabanı:** Cloud PostgreSQL (Neon.tech - `pg` Database Pool bağlantısı)
+- **Frontend & UI:** HTML5, Vanilla JavaScript, CSS3 (Akışkan Tipografi ve Native Mobil UI)
+- **Yapay Zeka (AI):** `@google/generative-ai` (Gemini 1.5 Flash - Contextual Memory)
+- **Web Scraping:** Axios, Cheerio
+- **Kriptografi & Otorizasyon:** JWT (JSON Web Token), bcryptjs, Node Crypto, CORS, dotenv
 
-## 🚀 Kurulum (Yerel Geliştirme Ortamı)
+## 🚀 Kurulum (Yerel Ortam)
 
 Projeyi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
 
-### 1. Projeyi Klonlayın
+### 1. Klonlayın
 ```bash
 git clone https://github.com/KULLANICI_ADINIZ/wishlink.git
 cd wishlink
 ```
 
-### 2. Gereksinimleri Yükleyin
+### 2. Bağımlılıkları Yükleyin
 ```bash
 npm install
 ```
 
-### 3. Çevre Değişkenleri (Environment Variables)
-Ana dizinde `.env` isimli gizli bir dosya oluşturun ve içerisine aşağıdaki ayarlarınızı ekleyin. (*Projeyi güvende tutmak için `.env` dosyanızı GitHub'a yüklemeyin, zaten `.gitignore` sayesinde yüklenmeyecektir*):
+### 3. Çevre Değişkenleri (Environment Variables) Ayarı
+Ana dizinde `.env` (başı noktalı) isimli gizli bir dosya oluşturun ve içerisine aşağıdaki değişkenleri yerleştirin. 
 ```env
 DATABASE_URL=postgresql://kullanici:sifre@host:5432/veritabani_adi
-JWT_SECRET=en_az_32_karakterlik_cok_gizli_anahtar_kelimeniz_123!
+JWT_SECRET=ozel_ve_guclu_bir_kriptoloji_anahtari_ornek_olarak_bu!
 PORT=3000
+GEMINI_API_KEY=google_ai_studio_arayuzunden_aldiginiz_anahtar
 ```
+*(Güvenlik ve masraflarınızı korumak için `.env` dosyanızı GitHub'a yüklemeyin. Projede bunu engelleyen `.gitignore` hazırdır.)*
 
 ### 4. Sunucuyu Başlatın
 ```bash
 npm start
 ```
-Artık tarayıcınızdan `http://localhost:3000` adresine giderek siteyi görüntüleyebilirsiniz! İçerisindeki gelişmiş Veritabanı Geçiş (Migration) mekanizması sayesinde tablolar ilk açılışta kendi kendine kusursuzca kurulacaktır.
+Browser üzerinden `http://localhost:3000` adresine girerek WishLink deneyimine erişebilirsiniz! İçerisindeki "Migration" kodları sayesinde hiçbir SQL Sorgusu girmenize gerek kalmadan, ilk çalışmada tüm PostgreSQL veritabanı tablolarınız kendi kendine kurulacaktır.
 
 ## 👑 Yönetici (Admin) Komutları
-Admin paneline (Uygulamadaki tüm kullanıcı ve listeleri yönetmek için) erişim sağlamak istiyorsanız, bağlandığınız PostgreSQL veritabanı panosundan (Neon.tech SQL Editor vs.) kendi hesabınız için yetki yükseltmesi yapmalısınız:
+Sayfadaki tüm üyeleri engellemek veya kullanıcı sayısını görebileceğiniz "Admin Panel" ekranına girmek isterseniz; bağlandığınız PostgreSQL editörü (pgAdmin, Neon.Tech Console vs.) üzerinden kendi hesabınızı yükseltebilirsiniz:
 ```sql
 UPDATE users SET role = 'admin' WHERE username = 'sizin_kullanici_adiniz';
 ```
 
 ---
-> 💡 *WishLink, hediye seçimi sırasındaki karmaşayı engelleyip, e-ticaret siteleri ile arkadaşlarınız arasında sosyal ve gizemli bir köprü kurmak amacıyla geliştirilmiştir.*
+> 💡 *WishLink, e-ticaret siteleri ile arkadaş grupları arasındaki iletişimsizliği yok etmek; bunu yaparken de gelişmiş Yapay Zeka botu ile hediye kültürünü modern bir seviyeye çıkarmak amacıyla tasarlanmıştır.*
