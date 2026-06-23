@@ -230,7 +230,7 @@ function renderProducts() {
                                : '';
 
         return `
-            <div class="product-card ${isOwnerSession && sortSel === 'default' && storeSel === 'all' ? 'draggable' : ''}" data-id="${p.id}" ${dragAttributes}>
+            <div class="product-card ${p.status === 'claimed' && !isOwnerSession ? 'claimed' : ''} ${isOwnerSession && sortSel === 'default' && storeSel === 'all' ? 'draggable' : ''}" data-id="${p.id}" ${dragAttributes}>
                 ${isOwnerSession ? '<div class="drag-handle"><i class="ri-drag-move-2-fill"></i></div>' : ''}
                 <div class="product-image-container">
                     <span class="product-store-badge">${p.store}</span>

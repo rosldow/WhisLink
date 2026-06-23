@@ -349,35 +349,54 @@ app.delete('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) 
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// --- WISHLINK AI CHATBOT ---
+// --- WISHLINK AI CHATBOT (DIAGNOSTIC MODE) ---
 app.post('/api/chat', async (req, res) => {
     const { history, message } = req.body;
-    
     if (!message) return res.status(400).json({ error: "Mesaj boş olamaz." });
-    if (!genAI) return res.status(503).json({ error: "Yapay zeka aktif değil. Lütfen GEMINI_API_KEY ayarlandığından emin olun." });
+    
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) return res.status(503).json({ error: "API anahtarı bulunamadı!" });
 
     try {
-        const mName = await getBestModel();
-        const model = genAI.getGenerativeModel({ model: mName });
-
-        const systemPrompt = "Senin adın WishBot. WishLink hediye uygulamasının akıllı hediye danışmanısın. Uzun metinler yerine her zaman kısa, net ve şık hediye önerilerinde bulunmalısın. Gerekirse emoji kullanabilirsin.";
-        const fullHistory = [
-            { role: "user", parts: [{ text: systemPrompt }] },
-            { role: "model", parts: [{ text: "Tamamdır, anladım. Ben WishBot'um. Mümkün olduğunca kısa ve şık öneriler vereceğim." }] },
-            ...(history || [])
-        ];
-
-        const chat = model.startChat({
-            history: fullHistory
-        });
+        // Step 1: Diagnose Available Models
+        const modelRes = await axios.get(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+        const models = modelRes.data.models.map(m => m.name.replace('models/', ''));
         
-        const result = await chat.sendMessage(message);
-        const responseText = result.response.text();
+        // Step 2: Pick the first valid text generation model
+        const fallback = modelRes.data.models.find(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
+        if (!fallback) {
+            return res.status(500).json({ error: "Hesabınızda hiçbir metin üretim modeli bulunamadı! Mevcut Modeller: " + models.join(', ') });
+        }
         
-        res.json({ text: responseText });
+        const mName = fallback.name.replace('models/', '');
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${mName}:generateContent?key=${key}`;
+
+        // Prepare History for REST API
+        let contents = [];
+        const systemPrompt = "Senin adın WishBot. WishLink uygulamasının hediye danışmanısın. Kısa ve net cevap ver.";
+        contents.push({ role: "user", parts: [{ text: systemPrompt }] });
+        contents.push({ role: "model", parts: [{ text: "Anladım, ben WishBot. Kısa yanıtlar vereceğim." }] });
+        
+        if (history) {
+            history.forEach(h => {
+                contents.push({ role: h.role === 'model' ? 'model' : 'user', parts: [{ text: h.parts[0].text }] });
+            });
+        }
+        contents.push({ role: "user", parts: [{ text: message }] });
+
+        const chatRes = await axios.post(url, { contents }, { headers: { 'Content-Type': 'application/json' } });
+        
+        if (!chatRes.data.candidates || chatRes.data.candidates.length === 0) {
+            return res.status(500).json({ error: "Model başarıyla seçildi ("+mName+") ancak cevap oluşturulamadı." });
+        }
+
+        res.json({ text: chatRes.data.candidates[0].content.parts[0].text });
     } catch (e) {
-        console.error("Gemini AI Hatası:", e);
-        res.status(500).json({ error: e.message || "Sohbet sırasında bir hata oluştu." });
+        let errDetails = e.message;
+        if (e.response && e.response.data) {
+            errDetails = JSON.stringify(e.response.data);
+        }
+        res.status(500).json({ error: "Teşhis Hatası: API bağlantısı sağlanamadı. Detay: " + errDetails });
     }
 });
 
